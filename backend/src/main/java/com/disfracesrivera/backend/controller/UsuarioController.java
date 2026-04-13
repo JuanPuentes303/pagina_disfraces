@@ -18,4 +18,11 @@ public class UsuarioController {
     public Usuario registrar(@Valid @RequestBody Usuario usuario) {
         return usuarioService.registrarUsuario(usuario);
     }
+    @PostMapping("/login")
+    public Usuario login(@RequestBody Usuario usuario) {
+        return usuarioService.login(
+            usuario.getCorreo(),
+            usuario.getContraseña()
+    );
+}
 }
