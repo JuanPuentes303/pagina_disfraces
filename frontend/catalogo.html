@@ -5,13 +5,9 @@
     <title>Catálogo</title>
 </head>
 <body>
-    <h1>Bienvenido al catálogo</h1>
-    <p id="usuario"></p>
+    <h1>Catálogo de Disfraces</h1>
+    <div id="catalogo"></div>
 
-    <script>
-        const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-        document.getElementById("usuario").innerText =
-            "Hola, " + usuario.nombre;
-    </script>
+    <script src="js/catalogo.js"></script>
 </body>
 </html>
