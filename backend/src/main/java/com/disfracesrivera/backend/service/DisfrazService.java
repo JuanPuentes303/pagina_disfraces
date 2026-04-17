@@ -24,4 +24,7 @@ public class DisfrazService {
 public Disfraz guardarDisfraz(Disfraz disfraz) {
     return disfrazRepository.save(disfraz);
 }
+public List<Disfraz> buscar(String texto) {
+    return disfrazRepository.findByNombreContainingIgnoreCase(texto);
+}
 }

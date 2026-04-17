@@ -25,4 +25,9 @@ public class DisfrazController {
 public Disfraz guardar(@RequestBody Disfraz disfraz) {
     return disfrazService.guardarDisfraz(disfraz);
 }
+
+@GetMapping("/buscar")
+public List<Disfraz> buscar(@RequestParam String texto) {
+    return disfrazService.buscar(texto);
+}
 }

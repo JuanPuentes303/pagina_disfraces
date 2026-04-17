@@ -5,9 +5,26 @@
     <title>Catálogo</title>
 </head>
 <body>
-    <h1>Catálogo de Disfraces</h1>
-    <div id="catalogo"></div>
 
-    <script src="js/catalogo.js"></script>
+<h1>Catálogo de Disfraces</h1>
+
+<input type="text" id="buscador" placeholder="Buscar disfraz...">
+<button onclick="buscar()">Buscar</button>
+
+<select id="categoria" onchange="filtrarCategoria()">
+    <option value="">Todas</option>
+    <option value="Superhéroe">Superhéroe</option>
+    <option value="Terror">Terror</option>
+    <option value="Infantil">Infantil</option>
+</select>
+
+<h2>Resultados</h2>
+<div id="catalogo"></div>
+
+<h2>Relacionados</h2>
+<div id="relacionados"></div>
+
+<script src="js/catalogo.js"></script>
+
 </body>
 </html>

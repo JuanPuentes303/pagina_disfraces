@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface DisfrazRepository extends JpaRepository<Disfraz, Integer> {
     List<Disfraz> findByNombreContainingIgnoreCase(String nombre);
+    List<Disfraz> findByCategoriaContainingIgnoreCase(String categoria);
 }
