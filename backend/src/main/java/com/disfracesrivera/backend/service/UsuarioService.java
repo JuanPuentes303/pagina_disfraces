@@ -11,26 +11,38 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario registrarUsuario(Usuario usuario) {
+    public Usuario registrar(Usuario usuario) {
+
+        if (usuario == null) {
+            throw new RuntimeException("Usuario inválido");
+        }
+
+        if (usuario.getNombre() == null || usuario.getNombre().isEmpty()) {
+            throw new RuntimeException("Nombre obligatorio");
+        }
+
+        if (usuario.getCorreo() == null || usuario.getCorreo().isEmpty()) {
+            throw new RuntimeException("Correo obligatorio");
+        }
+
+        if (usuario.getContraseña() == null || usuario.getContraseña().isEmpty()) {
+            throw new RuntimeException("Contraseña obligatoria");
+        }
 
         usuario.setRol("USER");
-
-        if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
-            throw new RuntimeException("El correo ya está registrado");
-        }
 
         return usuarioRepository.save(usuario);
     }
 
-public Usuario login(String correo, String contraseña) {
-    Usuario usuario = usuarioRepository.findByCorreo(correo)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public Usuario login(String correo, String contraseña) {
 
-    if (!usuario.getContraseña().equals(contraseña)) {
-        throw new RuntimeException("Contraseña incorrecta");
+        if (correo == null || contraseña == null) {
+            throw new RuntimeException("Datos incompletos");
+        }
+
+        return usuarioRepository
+                .findByCorreoAndContraseña(correo, contraseña)
+                .orElse(null);
     }
-
-    return usuario;
-}
 }
 

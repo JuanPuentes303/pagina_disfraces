@@ -16,18 +16,22 @@ public class DisfrazController {
     private DisfrazService disfrazService;
 
     @GetMapping("/aleatorios")
-    public List<Disfraz> obtenerAleatorios() {
-        return disfrazService.obtenerAleatorios();
+    public List<Disfraz> aleatorios() {
+        return disfrazService.aleatorios();
     }
 
+    @PostMapping("/guardar")
+    public Disfraz guardar(@RequestBody Disfraz d) {
+        return disfrazService.guardar(d);
+    }
 
-@PostMapping("/guardar")
-public Disfraz guardar(@RequestBody Disfraz disfraz) {
-    return disfrazService.guardarDisfraz(disfraz);
-}
+    @GetMapping("/buscar")
+    public List<Disfraz> buscar(@RequestParam String texto) {
+        return disfrazService.buscar(texto);
+    }
 
-@GetMapping("/buscar")
-public List<Disfraz> buscar(@RequestParam String texto) {
-    return disfrazService.buscar(texto);
-}
+    @GetMapping("/listar")
+    public List<Disfraz> listar() {
+        return disfrazService.listar();
+    }
 }

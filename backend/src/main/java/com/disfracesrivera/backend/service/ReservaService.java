@@ -1,10 +1,9 @@
 package com.disfracesrivera.backend.service;
 
-import com.disfracesrivera.backend.model.Reserva;
 import com.disfracesrivera.backend.model.Disfraz;
-import com.disfracesrivera.backend.repository.ReservaRepository;
+import com.disfracesrivera.backend.model.Reserva;
 import com.disfracesrivera.backend.repository.DisfrazRepository;
-import com.disfracesrivera.backend.service.EmailService;
+import com.disfracesrivera.backend.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,52 +14,60 @@ import java.util.List;
 public class ReservaService {
 
     @Autowired
-    private ReservaRepository reservaRepository;
+    private ReservaRepository reservaRepo;
 
     @Autowired
-    private DisfrazRepository disfrazRepository;
+    private DisfrazRepository disfrazRepo;
 
     @Autowired
     private EmailService emailService;
 
-    public Reserva reservar(Reserva reserva) {
+    public Reserva reservar(Reserva r) {
 
-        if (reserva.getFechaInicio().isAfter(reserva.getFechaFin())) {
-            throw new RuntimeException("Fecha inválida");
+        if (r.getFechaInicio() == null || r.getFechaFin() == null) {
+            throw new RuntimeException("Las fechas son obligatorias");
         }
 
-        List<Reserva> reservas = reservaRepository.findByDisfrazId(reserva.getDisfrazId());
+        if (r.getFechaInicio().isAfter(r.getFechaFin())) {
+            throw new RuntimeException("La fecha de inicio no puede ser mayor a la final");
+        }
 
-        for (Reserva r : reservas) {
-            if (r.getFechaFin().isBefore(LocalDate.now())) {
-                r.setEstado("FINALIZADA");
-                reservaRepository.save(r);
+        Integer disfrazId = r.getDisfrazId();
+
+        if (disfrazId == null) {
+            throw new RuntimeException("DisfrazId es obligatorio");
+        }
+
+        Disfraz d = disfrazRepo.findById(disfrazId)
+                .orElseThrow(() -> new RuntimeException("Disfraz no encontrado"));
+
+        List<Reserva> reservas = reservaRepo.findByDisfrazId(disfrazId);
+
+        for (Reserva res : reservas) {
+            if (res.getFechaFin().isBefore(LocalDate.now())) {
+                res.setEstado("FINALIZADA");
+                reservaRepo.save(res);
             }
         }
 
-        Disfraz disfraz = disfrazRepository.findById(reserva.getDisfrazId())
-                .orElseThrow(() -> new RuntimeException("Disfraz no existe"));
-
         long activas = reservas.stream()
-                .filter(r -> r.getEstado().equals("ACTIVA"))
+                .filter(x -> "ACTIVA".equals(x.getEstado()))
                 .count();
 
-        if (activas >= disfraz.getCantidad()) {
-            throw new RuntimeException("No disponible");
+        if (activas >= d.getCantidad()) {
+            throw new RuntimeException("No hay disponibilidad");
         }
 
-        reserva.setEstado("ACTIVA");
-
-        Reserva nueva = reservaRepository.save(reserva);
+        r.setEstado("ACTIVA");
+        Reserva nueva = reservaRepo.save(r);
 
         emailService.enviarCorreo(
-    "leslicita2675@gmail.com",
-     "Nueva reserva",
-            "Se ha realizado una reserva:\n\n" +
-            "Usuario ID: " + reserva.getUsuarioId() + "\n" +
-            "Disfraz ID: " + reserva.getDisfrazId() + "\n" +
-            "Inicio: " + reserva.getFechaInicio() + "\n" +
-            "Fin: " + reserva.getFechaFin()
+                "TU_CORREO@gmail.com",
+                "Nueva reserva",
+                "Se ha realizado una reserva:\n\n" +
+                        "Disfraz ID: " + r.getDisfrazId() + "\n" +
+                        "Inicio: " + r.getFechaInicio() + "\n" +
+                        "Fin: " + r.getFechaFin()
         );
 
         return nueva;

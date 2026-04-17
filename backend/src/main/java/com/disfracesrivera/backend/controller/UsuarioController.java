@@ -2,7 +2,6 @@ package com.disfracesrivera.backend.controller;
 
 import com.disfracesrivera.backend.model.Usuario;
 import com.disfracesrivera.backend.service.UsuarioService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +14,22 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/registro")
-    public Usuario registrar(@Valid @RequestBody Usuario usuario) {
-        return usuarioService.registrarUsuario(usuario);
+    public Usuario registrar(@RequestBody Usuario usuario) {
+        return usuarioService.registrar(usuario);
     }
+
     @PostMapping("/login")
     public Usuario login(@RequestBody Usuario usuario) {
-        return usuarioService.login(
-            usuario.getCorreo(),
-            usuario.getContraseña()
-    );
-}
+
+        Usuario u = usuarioService.login(
+                usuario.getCorreo(),
+                usuario.getContraseña()
+        );
+
+        if (u == null) {
+            throw new RuntimeException("Credenciales incorrectas");
+        }
+
+        return u;
+    }
 }

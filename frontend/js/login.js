@@ -1,35 +1,20 @@
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+async function login() {
 
     const correo = document.getElementById("correo").value;
-    const contraseña = document.getElementById("contraseña").value;
-    const mensaje = document.getElementById("mensaje");
+    const contraseña = document.getElementById("password").value;
 
-    const datos = {
-        correo,
-        contraseña
-    };
+    const res = await fetch("http://localhost:8080/usuarios/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({correo, contraseña})
+    });
 
-    try {
-        const respuesta = await fetch("http://localhost:8080/usuarios/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(datos)
-        });
+    const data = await res.json();
 
-        if (respuesta.ok) {
-            const usuario = await respuesta.json();
-
-            localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
-
-            window.location.href = "catalogo.html";
-        } else {
-            mensaje.innerText = "Correo o contraseña incorrectos";
-        }
-
-    } catch (error) {
-        mensaje.innerText = "Error de conexión con el servidor";
+    if (data) {
+        localStorage.setItem("usuarioLogueado", JSON.stringify(data));
+        window.location.href = "catalogo.html";
+    } else {
+        alert("Datos incorrectos");
     }
-});
+}

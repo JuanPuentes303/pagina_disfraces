@@ -1,61 +1,32 @@
-document.getElementById("formDisfraz").addEventListener("submit", async function(e) {
+document.getElementById("formDisfraz").addEventListener("submit", async e => {
     e.preventDefault();
 
-    const archivo = document.getElementById("imagen").files[0];
-    const mensaje = document.getElementById("mensaje");
-
-    if (!archivo) {
-        mensaje.innerText = "Debes seleccionar una imagen";
-        return;
-    }
-
-    // 📤 SUBIR IMAGEN
+    const file = document.getElementById("imagen").files[0];
     const formData = new FormData();
-    formData.append("file", archivo);
+    formData.append("file", file);
 
-    let imagenUrl = "";
+    const resImg = await fetch("http://localhost:8080/archivos/subir", {
+        method: "POST",
+        body: formData
+    });
 
-    try {
-        const resImagen = await fetch("http://localhost:8080/archivos/subir", {
-            method: "POST",
-            body: formData
-        });
-
-        imagenUrl = await resImagen.text();
-
-    } catch {
-        mensaje.innerText = "Error subiendo imagen";
-        return;
-    }
+    const imagenUrl = await resImg.text();
 
     const disfraz = {
-        nombre: document.getElementById("nombre").value,
-        categoria: document.getElementById("categoria").value,
-        talla: document.getElementById("talla").value,
-        precio: parseFloat(document.getElementById("precio").value),
-        descripcion: document.getElementById("descripcion").value,
-        imagenUrl: imagenUrl,
-        cantidad: parseInt(document.getElementById("cantidad").value),
-        disponible: true
+        nombre: nombre.value,
+        categoria: categoria.value,
+        talla: talla.value,
+        precio: precio.value,
+        descripcion: descripcion.value,
+        imagenUrl,
+        cantidad: cantidad.value
     };
 
-    try {
-        const res = await fetch("http://localhost:8080/disfraces/guardar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(disfraz)
-        });
+    await fetch("http://localhost:8080/disfraces/guardar", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(disfraz)
+    });
 
-        if (res.ok) {
-            mensaje.innerText = "Disfraz guardado correctamente";
-            document.getElementById("formDisfraz").reset();
-        } else {
-            mensaje.innerText = "Error al guardar disfraz";
-        }
-
-    } catch {
-        mensaje.innerText = "Error de conexión";
-    }
+    alert("Guardado");
 });

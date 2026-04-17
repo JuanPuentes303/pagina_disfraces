@@ -12,19 +12,48 @@ import java.util.List;
 public class DisfrazService {
 
     @Autowired
-    private DisfrazRepository disfrazRepository;
+    private DisfrazRepository repository;
 
-    public List<Disfraz> obtenerAleatorios() {
-        List<Disfraz> disfraces = disfrazRepository.findAll();
-        Collections.shuffle(disfraces);
+    public Disfraz guardar(Disfraz d) {
 
-        return disfraces.stream().limit(6).toList();
+        if (d == null) {
+            throw new RuntimeException("El disfraz no puede ser null");
+        }
+
+        if (d.getNombre() == null || d.getNombre().isEmpty()) {
+            throw new RuntimeException("El nombre es obligatorio");
+        }
+
+        if (d.getPrecio() <= 0) {
+            throw new RuntimeException("El precio debe ser mayor a 0");
+        }
+
+        if (d.getCantidad() < 0) {
+            throw new RuntimeException("Cantidad inválida");
+        }
+
+        return repository.save(d);
     }
 
-public Disfraz guardarDisfraz(Disfraz disfraz) {
-    return disfrazRepository.save(disfraz);
-}
-public List<Disfraz> buscar(String texto) {
-    return disfrazRepository.findByNombreContainingIgnoreCase(texto);
-}
+    public List<Disfraz> listar() {
+        return repository.findAll();
+    }
+
+    public List<Disfraz> buscar(String texto) {
+
+        if (texto == null || texto.isEmpty()) {
+            return listar();
+        }
+
+        return repository.findByNombreContainingIgnoreCase(texto);
+    }
+
+    public List<Disfraz> aleatorios() {
+
+        List<Disfraz> lista = repository.findAll();
+
+        Collections.shuffle(lista);
+
+        return lista.stream().limit(6).toList();
+    }
 }

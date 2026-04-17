@@ -2,9 +2,7 @@ package com.disfracesrivera.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/archivos")
@@ -14,18 +12,12 @@ public class ArchivoController {
     private final String RUTA = "uploads/";
 
     @PostMapping("/subir")
-    public String subirImagen(@RequestParam("file") MultipartFile file) {
+    public String subir(@RequestParam("file") MultipartFile file) throws Exception {
 
-        try {
-            String nombreArchivo = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        String nombre = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-            File destino = new File(RUTA + nombreArchivo);
-            file.transferTo(destino);
+        file.transferTo(new File(RUTA + nombre));
 
-            return "http://localhost:8080/uploads/" + nombreArchivo;
-
-        } catch (IOException e) {
-            throw new RuntimeException("Error al subir imagen");
-        }
+        return "http://localhost:8080/uploads/" + nombre;
     }
 }
