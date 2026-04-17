@@ -19,4 +19,10 @@ public class DisfrazController {
     public List<Disfraz> obtenerAleatorios() {
         return disfrazService.obtenerAleatorios();
     }
+
+
+@PostMapping("/guardar")
+public Disfraz guardar(@RequestBody Disfraz disfraz) {
+    return disfrazService.guardarDisfraz(disfraz);
+}
 }

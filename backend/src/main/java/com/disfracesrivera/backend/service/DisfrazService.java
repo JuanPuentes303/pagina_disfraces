@@ -20,4 +20,8 @@ public class DisfrazService {
 
         return disfraces.stream().limit(6).toList();
     }
+
+public Disfraz guardarDisfraz(Disfraz disfraz) {
+    return disfrazRepository.save(disfraz);
+}
 }

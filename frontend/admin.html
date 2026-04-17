@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<h1>Panel de Administración</h1>
+
+<form id="formDisfraz">
+    <input type="text" id="nombre" placeholder="Nombre" required>
+    <input type="text" id="categoria" placeholder="Categoría" required>
+    <input type="text" id="talla" placeholder="Talla">
+    <input type="number" id="precio" placeholder="Precio" required>
+    <input type="text" id="imagenUrl" placeholder="URL Imagen">
+    <input type="number" id="cantidad" placeholder="Cantidad" required>
+
+    <textarea id="descripcion" placeholder="Descripción"></textarea>
+
+    <button type="submit">Guardar Disfraz</button>
+</form>
+
+<p id="mensaje"></p>
+
+<script src="js/admin.js"></script>
+
+</body>
+</html>

@@ -7,10 +7,10 @@ async function cargarDisfraces() {
     disfraces.forEach(disfraz => {
         catalogo.innerHTML += `
             <div>
+                <img src="${disfraz.imagenUrl}" width="150">
                 <h3>${disfraz.nombre}</h3>
-                <p>Categoría: ${disfraz.categoria}</p>
-                <p>Precio: $${disfraz.precio}</p>
-                <p>${disfraz.descripcion}</p>
+                <p>${disfraz.categoria}</p>
+                <p>$${disfraz.precio}</p>
                 <hr>
             </div>
         `;
