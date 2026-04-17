@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>Catálogo</title>
 </head>
+<script>
+const usuario = localStorage.getItem("usuarioLogueado");
+
+if (!usuario) {
+    window.location.href = "login.html";
+}
+</script>
 <body>
 
 <h1>Catálogo de Disfraces</h1>
@@ -23,6 +30,19 @@
 
 <h2>Relacionados</h2>
 <div id="relacionados"></div>
+
+<p id="usuario"></p>
+<button onclick="logout()">Cerrar sesión</button>
+
+<script>
+const u = JSON.parse(localStorage.getItem("usuarioLogueado"));
+document.getElementById("usuario").innerText = "Hola, " + u.nombre;
+
+function logout() {
+    localStorage.removeItem("usuarioLogueado");
+    window.location.href = "login.html";
+}
+</script>
 
 <script src="js/catalogo.js"></script>
 
