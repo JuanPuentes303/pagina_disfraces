@@ -13,6 +13,8 @@ public class UsuarioService {
 
     public Usuario registrarUsuario(Usuario usuario) {
 
+        usuario.setRol("USER");
+
         if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
             throw new RuntimeException("El correo ya está registrado");
         }

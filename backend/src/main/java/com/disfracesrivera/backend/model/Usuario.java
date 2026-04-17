@@ -33,4 +33,6 @@ public class Usuario {
     private String contraseña;
 
     private String telefono;
+
+    private String rol;
 }
