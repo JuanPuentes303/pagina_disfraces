@@ -4,25 +4,29 @@
     <meta charset="UTF-8">
     <title>Panel Admin</title>
     <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 </head>
 <body>
 
-<h1>Panel de Administración</h1>
+<div class="container">
+    <h1 class="title">Panel de Administración</h1>
 
-<form id="formDisfraz">
-    <input type="text" id="nombre" placeholder="Nombre" required>
-    <input type="text" id="categoria" placeholder="Categoría" required>
-    <input type="text" id="talla" placeholder="Talla">
-    <input type="number" id="precio" placeholder="Precio" required>
-    <input type="file" id="imagen" required>
-    <input type="number" id="cantidad" placeholder="Cantidad" required>
+    <form id="formDisfraz">
+        <input type="text" id="nombre" placeholder="Nombre" required>
+        <input type="text" id="categoria" placeholder="Categoría" required>
+        <input type="text" id="talla" placeholder="Talla">
+        <input type="number" id="precio" placeholder="Precio" required>
+        <input type="file" id="imagen" required>
+        <input type="number" id="cantidad" placeholder="Cantidad" required>
 
-    <textarea id="descripcion" placeholder="Descripción"></textarea>
+        <textarea id="descripcion" placeholder="Descripción"></textarea>
 
-    <button type="submit">Guardar Disfraz</button>
-</form>
+        <button type="submit" class="btn btn-primary">Guardar Disfraz</button>
+    </form>
 
-<p id="mensaje"></p>
+    <p id="mensaje"></p>
+</div>
 
 <script src="js/admin.js"></script>
 

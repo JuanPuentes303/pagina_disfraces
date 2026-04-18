@@ -1,14 +1,53 @@
 body {
-    font-family: Arial;
-    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.container {
+    width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    background: black;
+    border-radius: 10px;
+    box-shadow: 0 0 10px;
+}
+
+.title {
+    color: white;
+    margin-bottom: 20px;
 }
 
 form {
-    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-input, textarea, button {
+input, textarea {
     width: 100%;
-    margin: 10px 0;
-    padding: 10px;
+    padding: 12px;
+    color: white;
+    background-color: rgba(128, 128, 128, 0.158);
+    border-radius: 10px;
+    margin: 0;
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgb(185, 185, 185);
+}
+
+textarea {
+    height: 150px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px; 
+}
+
+#mensaje {
+    margin-top: 15px;
+    font-weight: bold;
 }
